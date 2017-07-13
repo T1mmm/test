@@ -7,7 +7,7 @@
     - [生成签名](#生成签名)
     - [公共参数](#公共参数)
     - [code状态码说明](#code状态码说明)
-    - [代码示例（以php为例）](#代码示例)
+    - [代码示例](#代码示例)
 - [1 高防ip管理](#1高防ip管理)
     - [1.1高防IP购买](#1.1高防IP购买)
         - [1.1.1 服务套餐类型](#1.1.1服务套餐类型)
@@ -42,7 +42,7 @@
 
  **a**. 将所有请求参数按键名进行排序，然后用‘&’符号对键值对拼接，如:a=1&b=2&c=3
 
- **b**. 将a步骤得到的字符串拼接上api_secret（私钥）后进行md5加密，得到signature
+ **b**. 将a步骤得到的字符串拼接上api_secret（私钥）后进行md5加密，得到公共参数——signature（签名）
 
 
 <h4 id='公共参数'>公共参数</h4>
@@ -52,7 +52,7 @@
 |参数名|是否必须|类型|说明|
 |:----:    |:---:|:----: |:-----:   |
 |api_key |  是 |string  | 公钥，也是代理商身份的唯一标识，由网堤安全提供    |
-|signature |  是 |string  | 签名，具体细节请看下面的签名生成    |
+|signature |  是 |string  | 签名，具体细节请看上面的“生成签名”介绍    |
 
 <h4 id='code状态码说明'>code状态码说明</h4>
 
@@ -62,7 +62,7 @@
 
 - -1：	    接口调用失败
 
-- 0	：		调用成功
+- 0	：		接口调用成功
 
 <h4 id='代码示例'>代码示例</h4>
 
@@ -132,7 +132,7 @@ $signature = md5($str . '私钥');//得到签名
 
 ****正确时返回示例****：
 
-- JSON示例:
+JSON示例:
 
 ```
 
@@ -168,7 +168,8 @@ $signature = md5($str . '私钥');//得到签名
 ```
 
 **错误时返回示例：**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
@@ -177,6 +178,7 @@ $signature = md5($str . '私钥');//得到签名
     "code": -1
 }
 ```
+
 <h4 id='1.1.2购买接口'>1.1.2购买接口</h4>
 
 ##### 功能说明：
@@ -207,10 +209,9 @@ $signature = md5($str . '私钥');//得到签名
 |:----: |:----:|:---:|:----:  |
 |product_id|是|int|套餐ID|
 |duration|是|int|购买时长|
-|duration_type|是|int|时间类型，2-月，3-年|
-|order_type|是|int|填写固定值 0|
+|duration_type|是|int|时间类型 (2-月，3-年)|
+|order_type|是|int|填写固定值0 (0-购买，1-升级，2-续费)|
 
-* order_type参数说明：0-购买，1-升级，2-续费；这里是购买接口，传0即可。同理，升级与续费接口必须传相应的值，下面不在赘述
 
 
 ##### 返回参数说明：
@@ -224,8 +225,8 @@ $signature = md5($str . '私钥');//得到签名
 |instance_id | 高防IP的ID|
 |product_id | 套餐ID |
 |duration | 时长|
-|duration_type | 时间类型 |
-|status | 订单状态，1-订单处理中，3-已完成  |
+|duration_type | 时间类型 (2-月，3-年)|
+|status | 订单状态 (1-订单处理中，3-已完成)  |
 |total_price | 总价格 |
 |real_price | 实际价格 |
 |create_timestamp | 订单创建时间 |
@@ -237,7 +238,7 @@ $signature = md5($str . '私钥');//得到签名
 
 ****正确时返回示例****：
 
-- JSON示例:
+JSON示例:
 
 ```
 
@@ -263,7 +264,8 @@ $signature = md5($str . '私钥');//得到签名
 ```
 
 **错误时返回示例：**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
@@ -303,7 +305,7 @@ $signature = md5($str . '私钥');//得到签名
 |:----: |:----:|:---:|:----:  |
 |product_id|是|int|套餐ID|
 |instance_id|是|int|高防IP的ID|
-|order_type|是|int|值为 1|
+|order_type|是|int|填写固定值1 (0-购买，1-升级，2-续费)|
 
 ##### 返回参数说明：
 
@@ -329,7 +331,7 @@ $signature = md5($str . '私钥');//得到签名
 
 ****正确时返回示例****：
 
-- JSON示例:
+JSON示例:
 
 ```
 {
@@ -354,7 +356,8 @@ $signature = md5($str . '私钥');//得到签名
 ```
 
 **错误时返回示例：**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
@@ -393,9 +396,9 @@ $signature = md5($str . '私钥');//得到签名
 |:----: |:----:|:---:|:----:  |
 |product_id|是|int|套餐ID|
 |duration | 是 | int | 时长 |
-|duration_type | 是 | int | 时间类型 |
+|duration_type | 是 | int | 时间类型 (2-月，3-年) |
 |instance_id|是|int|高防IP的ID|
-|order_type|是|int|值为 2|
+|order_type|是|int|填写固定值2 (0-购买，1-升级，2-续费)|
 
 ##### 返回参数说明：
 
@@ -408,7 +411,7 @@ $signature = md5($str . '私钥');//得到签名
 |instance_id | 高防IP的ID|
 |product_id | 套餐ID |
 |duration | 时长|
-|duration_type | 时间类型 |
+|duration_type | 时间类型 (2-月，3-年)|
 |status | 订单状态，1-订单处理中，3-已完成  |
 |total_price | 总价格 |
 |real_price | 实际价格 |
@@ -421,7 +424,7 @@ $signature = md5($str . '私钥');//得到签名
 
 ****正确时返回示例****：
 
-- JSON示例:
+JSON示例:
 
 ```
 
@@ -447,7 +450,9 @@ $signature = md5($str . '私钥');//得到签名
 ```
 
 **错误时返回示例：**
-- JSON示例:
+
+JSON示例:
+
 ```
 {
    
@@ -485,7 +490,7 @@ $signature = md5($str . '私钥');//得到签名
 |:----: |:----:|:---: |:----:  |
 |page | 否 | int | 第几页 |
 |nub | 否 | int | 每页数据条数 |
-|type | 否 | int | 订单类型 0-新购，1-升级，2-续费 |
+|type | 否 | int | 订单类型 （0-新购，1-升级，2-续费） |
 |kwd | 否 | string | 订单编号模糊搜索 |
 
 ##### 返回参数说明：
@@ -499,8 +504,8 @@ $signature = md5($str . '私钥');//得到签名
 |instance_id | 高防IP的ID|
 |product_id | 套餐ID |
 |duration | 时长|
-|duration_type | 时间类型 |
-|status | 订单状态，1-订单处理中，3-已完成  |
+|duration_type | 时间类型（2-月，3-年）|
+|status | 订单状态（1-订单处理中，3-已完成） |
 |total_price | 总价格 |
 |real_price | 实际价格 |
 |create_timestamp | 订单创建时间戳 |
@@ -512,7 +517,7 @@ $signature = md5($str . '私钥');//得到签名
 
 ****正确时返回示例****：
 
-- JSON示例:
+JSON示例:
 
 ```
 {
@@ -553,7 +558,8 @@ $signature = md5($str . '私钥');//得到签名
 ```
 
 **错误时返回示例：**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
@@ -574,7 +580,7 @@ $signature = md5($str . '私钥');//得到签名
 ##### 请求URL：
 
 - http://[域名]/api/agent/highIp
-- 
+
 ##### HTTP请求方式：
 
 - GET
@@ -614,7 +620,7 @@ $signature = md5($str . '私钥');//得到签名
 
 ****正确时返回示例****：
 
-- JSON示例:
+JSON示例:
 
 ```
 {
@@ -650,7 +656,8 @@ $signature = md5($str . '私钥');//得到签名
 ```
 
 **错误时返回示例：**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
@@ -717,7 +724,8 @@ JSON示例：
 ```
 
 **错误时返回示例:**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
@@ -730,6 +738,7 @@ JSON示例：
 ##### 备注:
 
 - 暂无
+ 
 
 <h4 id='1.2.3转发规则列表'>1.2.3 转发规则列表</h4>
 
@@ -771,7 +780,7 @@ JSON示例：
 |relay_port |  转发端口    |
 |source_port |  源端口    |
 |source_ip |  源站IP，格式为“ip1,ip2”    |
-|type |  规则类型 1-dnat，2-snat   |
+|type |  规则类型 （1-dnat，2-snat）   |
 |protocol |  转发协议   |
 |create_timestamp |  创建时间戳   |
 |created_at |  创建时间  |
@@ -811,7 +820,9 @@ JSON示例：
 ```
 
 **错误时返回示例:**
-- JSON示例:
+
+JSON示例:
+
 ```
 {
     "msg": "规则列表为空",
@@ -851,7 +862,7 @@ JSON示例：
 |参数名|是否必须|类型|说明|
 |:----:    |:---:|:-----: |:-----:   |
 |id |  是 |int  | 高防IP的ID    |
-|natPort |  是 |int  | 转发端口，不能为80，8080，443    |
+|natPort |  是 |int  | 转发端口，不能为80、8080、443    |
 |sourcePort |  是 |int  | 源端口    |
 |rulesProtoal |  是 |string  | 转发协议，格式为“TCP”、“UDP”、“TCP&UDP”、“UDP&TCP”    |
 |rulesDestPoolIp |  是 |string  | 源站IP，格式为“ip1,ip2”    |
@@ -881,7 +892,8 @@ JSON示例：
 
 **错误时返回示例:**
 
-- JSON示例:
+JSON示例:
+
 ```
 {
     "msg": "添加失败",
@@ -951,7 +963,8 @@ JSON示例：
 ```
 
 **错误时返回示例:**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
@@ -1017,7 +1030,8 @@ JSON示例：
 ```
 
 **错误时返回示例:**
-- JSON示例:
+
+JSON示例:
 
 ```
 {
