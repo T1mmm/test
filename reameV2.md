@@ -33,8 +33,9 @@
 
 |参数名      |是否必须 |类型    |说明|
 |:----:      |:---:|:-----: |:-----:   |
-|api_key    |  是     |string  | 公钥，也是代理商身份的唯一标识，由网堤安全提供    |
+|api_key    |  是     |int  | 代理商身份的唯一标识，由网堤安全提供    |
 |api_secret |  是     |string  | 私钥（切勿泄漏），由网堤安全提供    |
+|rsa_pub |  是     |string  | RSA加密公钥（切勿泄漏），由网堤安全提供    |
 
 
 
@@ -42,8 +43,8 @@
 
  **a**. 将所有请求参数按键名进行排序，然后用‘&’符号对键值对拼接，如:a=1&b=2&c=3
 
- **b**. 将a步骤得到的字符串拼接上api_secret（私钥）后进行md5加密，得到公共参数——signature（签名）
-
+ **b**. 将a步骤得到的字符串拼接上api_secret（私钥）后进行MD5加密，利用rsa_pub（RSA加密公钥）进行RSA公钥加密，再base64编码后，得到请求HEADER头参数——authorization（签名）
+（具体代码操作可参考“代码示例”部分）
 
 <h4 id='公共参数'>公共参数</h4>
 
@@ -51,8 +52,8 @@
 
 |参数名|是否必须|类型|说明|
 |:----:    |:---:|:----: |:-----:   |
-|api_key |  是 |string  | 公钥，也是代理商身份的唯一标识，由网堤安全提供    |
-|signature |  是 |string  | 签名，具体细节请看上面的“生成签名”介绍    |
+|api_key |  是 |string  | 代理商身份的唯一标识，由网堤安全提供    |
+|authorization |  是 |string  | 签名，请求HEADER参数,具体细节请看上面的“生成签名”介绍    |
 
 <h4 id='code状态码说明'>code状态码说明</h4>
 
@@ -74,7 +75,9 @@ ksort($params);  //参数按键名进行排序
 
 $str=http_build_query($params); //将参数拼接成a=1&b=2... 的字符串
 
-$signature = md5($str . '私钥');//得到签名
+openssl_public_encrypt(md5($str . '私钥'),$signature,$rsa_pub);
+
+$base_str = base64_encode($signature);	//得到authorization参数的值
 
 ```
 
