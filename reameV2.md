@@ -44,7 +44,7 @@
  **a**. 将所有请求参数按键名进行排序，然后用‘&’符号对键值对拼接，如:a=1&b=2&c=3
 
  **b**. 将a步骤得到的字符串拼接上api_secret（私钥）后进行MD5加密，利用rsa_pub（RSA加密公钥）进行RSA公钥加密，再base64编码后，得到请求HEADER头参数——authorization（认证信息）
-（具体代码操作可参考“代码示例”部分）
+（具体代码操作可参考“代码示例”部分）                
 
 <h4 id='pub_parame'>公共参数</h4>
 
@@ -118,7 +118,7 @@ $base_str = base64_encode($signature);	//得到authorization参数的值
 
 |参数名|描述|
 |:----:    |:-----   |
-|list |  高防IP套餐列表 其中：</br> id：套餐ID，</br> name：套餐名称，</br> band：防御峰值，</br> idc_band：回源带宽，</br> price：套餐对应价格列表，其中：</br><div style="text-align:center;"><div><td style="text-align:left;border: white;">product_id：套餐ID，</br> month_price：单月价格，</br> year_price：单年价格，</div>|
+|list |高防IP套餐列表 其中：</br> id：套餐ID，</br> name：套餐名称，</br> band：防御峰值，</br> idc_band：回源带宽，</br> price：套餐对应价格列表，其中：</br><table><td>product_id：套餐ID，</br> month_price：单月价格，</br> year_price：单年价格，</td></table>|
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -212,20 +212,8 @@ JSON示例:
 ##### 返回参数说明：
 
 |参数名|描述|
-|:----:    |:-----:   |
-|data |  订单详情    |
-|id |  订单ID    |
-|order_no |  订单编号    |
-|type |  订单类型（0-新购，1-升级，2-续费）|
-|instance_id | 高防IP的ID|
-|product_id | 套餐ID |
-|duration | 时长|
-|duration_type | 时间类型 (2-月，3-年)|
-|status | 订单状态 (1-订单处理中，3-已完成)  |
-|total_price | 总价格 |
-|real_price | 实际价格 |
-|create_timestamp | 订单创建时间 |
-|product_end_timestamp | 服务到期时间 |
+|:----:    |:-----   |
+|data | 订单详情 其中：</br> id：订单ID，</br> order_no：订单编号，</br> type：订单类型（0-新购，1-升级，2-续费），</br> instance_id：高防IP的ID，</br> product_id：套餐ID，</br> duration：时长，</br> duration_type：时间类型 (2-月，3-年)，</br> status：订单状态 (1-订单处理中，3-已完成)，</br> total_price：总价格，</br> real_price：实际价格，</br> create_timestamp：订单创建时间戳，</br> product_end_timestamp：服务到期时间戳
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -305,20 +293,8 @@ JSON示例:
 ##### 返回参数说明：
 
 |参数名|描述|
-|:----:    |:-----:   |
-|data |  订单详情    |
-|id |  订单ID    |
-|order_no |  订单编号    |
-|type |  订单类型（0-新购，1-升级，2-续费）|
-|instance_id | 高防IP的ID|
-|product_id | 套餐ID |
-|duration | 时长（升级情况下为0）|
-|duration_type | 时间类型（升级情况下为0） |
-|status | 订单状态，1-订单处理中，3-已完成  |
-|total_price | 总价格 |
-|real_price | 实际价格 |
-|create_timestamp | 订单创建时间戳 |
-|product_end_timestamp | 服务到期时间戳 |
+|:----:    |:-----   |
+|data | 订单详情 其中：</br> id：订单ID，</br> order_no：订单编号，</br> type：订单类型（0-新购，1-升级，2-续费），</br> instance_id：高防IP的ID，</br> product_id：套餐ID，</br> duration：时长（升级情况下为0），</br> duration_type：时间类型 （升级情况下为0），</br> status：订单状态 (1-订单处理中，3-已完成)，</br> total_price：总价格，</br> real_price：实际价格，</br> create_timestamp：订单创建时间戳，</br> product_end_timestamp：服务到期时间戳  |
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -398,20 +374,8 @@ JSON示例:
 ##### 返回参数说明：
 
 |参数名|描述|
-|:----:    |:-----:   |
-|data |  订单详情    |
-|id |  订单ID    |
-|order_no |  订单编号    |
-|type |  订单类型（0-新购，1-升级，2-续费）|
-|instance_id | 高防IP的ID|
-|product_id | 套餐ID |
-|duration | 时长|
-|duration_type | 时间类型 (2-月，3-年)|
-|status | 订单状态，1-订单处理中，3-已完成  |
-|total_price | 总价格 |
-|real_price | 实际价格 |
-|create_timestamp | 订单创建时间戳 |
-|product_end_timestamp | 服务到期时间戳 |
+|:----:    |:-----  |
+|data |  订单详情 其中：</br> id：订单ID，</br> order_no：订单编号，</br> type：订单类型（0-新购，1-升级，2-续费），</br> instance_id：高防IP的ID，</br> product_id：套餐ID，</br> duration：时长，</br> duration_type：时间类型 (2-月，3-年)，</br> status：订单状态 (1-订单处理中，3-已完成)，</br> total_price：总价格，</br> real_price：实际价格，</br> create_timestamp：订单创建时间戳，</br> product_end_timestamp：服务到期时间戳   |
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -491,20 +455,8 @@ JSON示例:
 ##### 返回参数说明：
 
 |参数名|描述|
-|:----:    |:-----:   |
-|list |  订单列表    |
-|id |  订单ID    |
-|order_no |  订单编号    |
-|type |  订单类型（0-新购，1-升级，2-续费）|
-|instance_id | 高防IP的ID|
-|product_id | 套餐ID |
-|duration | 时长|
-|duration_type | 时间类型（2-月，3-年）|
-|status | 订单状态（1-订单处理中，3-已完成） |
-|total_price | 总价格 |
-|real_price | 实际价格 |
-|create_timestamp | 订单创建时间戳 |
-|product_end_timestamp | 服务到期时间戳 |
+|:----:    |:-----   |
+|list |  订单详情 其中：</br> id：订单ID，</br> order_no：订单编号，</br> type：订单类型（0-新购，1-升级，2-续费），</br> instance_id：高防IP的ID，</br> product_id：套餐ID，</br> duration：时长，</br> duration_type：时间类型 (2-月，3-年)，</br> status：订单状态 (1-订单处理中，3-已完成)，</br> total_price：总价格，</br> real_price：实际价格，</br> create_timestamp：订单创建时间戳，</br> product_end_timestamp：服务到期时间戳   |
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -598,20 +550,8 @@ JSON示例:
 ##### 返回参数说明：
 
 |参数名|描述|
-|:----:    |:-----:   |
-|list |  高防IP列表    |
-|id |  高防IP的ID    |
-|high_ip |  高防IP    |
-|order_id |  订单ID    |
-|end_timestamp |  服务到期时间戳    |
-|start_timestamp |  服务开始时间戳    |
-|created_at |  高防IP创建时间    |
-|updated_at |  高防IP更新时间    |
-|product |  所属套餐信息    |
-|id |  套餐ID   |
-|name | 套餐名称    |
-|band |  防御峰值    |
-|idc_band |  回源带宽    |
+|:----:    |:----- |
+|list | 高防IP列表 其中：</br> id：高防IP的ID，</br> high_ip：高防IP，</br> order_id：订单ID，</br> end_timestamp：服务到期时间戳，</br> start_timestamp：服务开始时间戳，</br> created_at：高防IP创建时间，</br> updated_at：高防IP更新时间，</br> product：所属套餐信息，其中：</br><table><td>id：套餐ID，</br> name：套餐名称，</br> band：防御峰值，</br> idc_band：回源带宽，</td></table>|
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -781,18 +721,8 @@ JSON示例:
 ##### 返回参数说明:
 
 |参数名|描述|
-|:----:    |:-----:   |
-|list |  转发规则列表    |
-|id |  转发规则的ID    |
-|high_ip_id |  高防IP的ID   |
-|relay_port |  转发端口    |
-|source_port |  源端口    |
-|source_ip |  源站IP，格式为“ip1,ip2”    |
-|type |  规则类型 （1-dnat，2-snat）   |
-|protocol |  转发协议   |
-|create_timestamp |  创建时间戳   |
-|created_at |  创建时间  |
-|updated_at |  更新时间    |
+|:----:    |:-----  |
+|list | 转发规则列表 其中：</br> id：转发规则的ID，</br> high_ip_id：高防IP的ID，</br> relay_port：转发端口，</br> source_port：源端口，</br> source_ip：源站IP，格式为“ip1,ip2”，</br> type：规则类型 （1-dnat，2-snat），</br> protocol：转发协议，</br> create_timestamp：创建时间戳，</br> created_at：创建时间，</br> updated_at：更新时间，</br> |
 |msg |  信息说明    |
 |code|  状态码    |
 
