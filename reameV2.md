@@ -1,71 +1,71 @@
 # 高防IP API接口说明书
 ## 目录
 
-- [准备](#准备)
-    - [域名](#域名)
-    - [公共参数生成材料](#公共参数生成材料)
-    - [生成签名](#生成签名)
-    - [公共参数](#公共参数)
-    - [code状态码说明](#code状态码说明)
-    - [代码示例](#代码示例)
-- [1 高防ip管理](#1高防ip管理)
-    - [1.1高防IP购买](#1.1高防IP购买)
-        - [1.1.1 服务套餐类型](#1.1.1服务套餐类型)
-        - [1.1.2 购买接口](#1.1.2购买接口)
-        - [1.1.3 升级接口](#1.1.3升级接口)           
-        - [1.1.4 续费接口](#1.1.4续费接口)
-        - [1.1.5 订单列表](#1.1.5订单列表)
-    - [1.2高防IP列表](#1.2高防IP列表)
-        - [1.2.1 获取高防IP列表](#1.2.1获取高防IP列表)
-        - [1.2.2 删除高防IP](#1.2.2删除高防IP)
-        - [1.2.3 转发规则列表](#1.2.3转发规则列表)  
-        - [1.2.4 添加转发规则](#1.2.4添加转发规则)
-        - [1.2.5 编辑转发规则](#1.2.5编辑转发规则)  
-        - [1.2.6 删除转发规则](#1.2.6删除转发规则)
+- [准备](#ready)
+    - [域名](#domain)
+    - [公共参数生成材料](#ready_parame)
+    - [生成认证信息](#make_authorization)
+    - [公共参数](#pub_parame)
+    - [code状态码说明](#code_status)
+    - [代码示例](#code_example)
+- [1 高防ip管理](#hignIp)
+    - [1.1高防IP购买](#buy_highIp)
+        - [1.1.1 服务套餐类型](#get_product_type)
+        - [1.1.2 购买接口](#buy_product)
+        - [1.1.3 升级接口](#update_product)           
+        - [1.1.4 续费接口](#renew_product)
+        - [1.1.5 订单列表](#get_order_list)
+    - [1.2高防IP列表](#highIp_list)
+        - [1.2.1 获取高防IP列表](#get_highIp_list)
+        - [1.2.2 删除高防IP](#del_highIp_list)
+        - [1.2.3 转发规则列表](#get_rule_list)  
+        - [1.2.4 添加转发规则](#add_rule)
+        - [1.2.5 编辑转发规则](#edit_rule)  
+        - [1.2.6 删除转发规则](#del_rule)
             
 
-<h2 id='准备'>准备</h2>
-<h4 id='域名'>域名</h4>
+<h2 id='ready'>准备</h2>
+<h4 id='domain'>域名</h4>
 
 - dev-highip.ddos.com
 
-<h4 id='公共参数生成材料'>公共参数生成材料</h4>
+<h4 id='ready_parame'>公共参数生成材料</h4>
 
 |参数名      |是否必须 |类型    |说明|
 |:----:      |:---:|:-----: |:-----:   |
-|api_key    |  是     |int  | 代理商身份的唯一标识，由网堤安全提供    |
+|api_id    |  是     |int  | 代理商身份的唯一标识，由网堤安全提供    |
 |api_secret |  是     |string  | 私钥（切勿泄漏），由网堤安全提供    |
 |rsa_pub |  是     |string  | RSA加密公钥（切勿泄漏），由网堤安全提供    |
 
 
 
-<h4 id='生成签名'>生成签名</h4>
+<h4 id='make_authorization'>生成认证信息</h4>
 
  **a**. 将所有请求参数按键名进行排序，然后用‘&’符号对键值对拼接，如:a=1&b=2&c=3
 
- **b**. 将a步骤得到的字符串拼接上api_secret（私钥）后进行MD5加密，利用rsa_pub（RSA加密公钥）进行RSA公钥加密，再base64编码后，得到请求HEADER头参数——authorization（签名）
+ **b**. 将a步骤得到的字符串拼接上api_secret（私钥）后进行MD5加密，利用rsa_pub（RSA加密公钥）进行RSA公钥加密，再base64编码后，得到请求HEADER头参数——authorization（认证信息）
 （具体代码操作可参考“代码示例”部分）
 
-<h4 id='公共参数'>公共参数</h4>
+<h4 id='pub_parame'>公共参数</h4>
 
 所有接口的调用都必须以下这两个公共参数，下面接口中不再赘述
 
 |参数名|是否必须|类型|说明|
 |:----:    |:---:|:----: |:-----:   |
-|api_key |  是 |string  | 代理商身份的唯一标识，由网堤安全提供    |
-|authorization |  是 |string  | 签名，请求HEADER参数,具体细节请看上面的“生成签名”介绍    |
+|api_id |  是 |string  | 代理商身份的唯一标识，由网堤安全提供    |
+|authorization |  是 |string  | 认证信息，请求HEADER参数,具体细节请看上面的“认证信息”介绍    |
 
-<h4 id='code状态码说明'>code状态码说明</h4>
+<h4 id='code_status'>code状态码说明</h4>
 
 - 100001：	表示公钥为空或者公钥错误
 
-- 100002：	签名为空或签名验证不通过
+- 100002：	认证信息为空或认证信息验证不通过
 
 - -1：	    接口调用失败
 
 - 0	：		接口调用成功
 
-<h4 id='代码示例'>代码示例</h4>
+<h4 id='code_example'>代码示例</h4>
 
 ```
 （PHP代码）
@@ -81,10 +81,10 @@ $base_str = base64_encode($signature);	//得到authorization参数的值
 
 ```
 
-<h2 id='1高防IP管理'>1高防IP管理</h3>
+<h2 id='hignIp'>1高防IP管理</h3>
 
-<h3 id='1.1高防IP购买'>1.1高防IP购买</h3>
-<h4 id='1.1.1服务套餐类型'>1.1.1服务套餐类型</h4>
+<h3 id='buy_highIp'>1.1高防IP购买</h3>
+<h4 id='get_product_type'>1.1.1服务套餐类型</h4>
 
 ##### 功能说明：
 
@@ -117,16 +117,8 @@ $base_str = base64_encode($signature);	//得到authorization参数的值
 ##### 返回参数说明：
 
 |参数名|描述|
-|:----    |-----   |
-|list |  高防IP套餐列表    |
-|id |  套餐ID    |
-|name |  套餐名称    |
-|band |  防御峰值    |
-|idc_band |  回源带宽    |
-|price |  套餐对应价格    |
-|product_id |  套餐ID    |
-|month_price|单月价格|
-|year_price|单年价格|
+|:----:    |:-----   |
+|list |  高防IP套餐列表 其中：</br> id：套餐ID，</br> name：套餐名称，</br> band：防御峰值，</br> idc_band：回源带宽，</br> price：套餐对应价格列表，其中：</br><div style="text-align:center;"><div><td style="text-align:left;border: white;">product_id：套餐ID，</br> month_price：单月价格，</br> year_price：单年价格，</div>|
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -182,7 +174,7 @@ JSON示例:
 }
 ```
 
-<h4 id='1.1.2购买接口'>1.1.2购买接口</h4>
+<h4 id='buy_product'>1.1.2购买接口</h4>
 
 ##### 功能说明：
 
@@ -278,7 +270,7 @@ JSON示例:
 }
 ```
 
-<h4 id='1.1.3升级接口'>1.1.3 升级接口</h4>
+<h4 id='update_product'>1.1.3 升级接口</h4>
 
 ##### 功能说明：
 
@@ -369,7 +361,7 @@ JSON示例:
     "code": -1
 }
 ```
-<h4 id='1.1.4续费接口'>1.1.4 续费接口</h4>
+<h4 id='renew_product'>1.1.4 续费接口</h4>
 
 ##### 功能说明：
 
@@ -463,7 +455,7 @@ JSON示例:
     "code": -1
 }
 ```
-<h4 id='1.1.5订单列表'>1.1.5 订单列表</h4>
+<h4 id='get_order_list'>1.1.5 订单列表</h4>
 
 ##### 功能说明：
 
@@ -573,8 +565,8 @@ JSON示例:
 ```
 
 ---
-<h3 id='1.2高防IP列表'>1.2 高防IP列表</h3>服务套餐类型
-<h4 id='1.2.1获取高防IP列表'>1.2.1 获取高防IP列表</h4>
+<h3 id='highIp_list'>1.2 高防IP列表</h3>服务套餐类型
+<h4 id='get_highIp_list'>1.2.1 获取高防IP列表</h4>
 
 ##### 功能说明：
 
@@ -615,6 +607,11 @@ JSON示例:
 |start_timestamp |  服务开始时间戳    |
 |created_at |  高防IP创建时间    |
 |updated_at |  高防IP更新时间    |
+|product |  所属套餐信息    |
+|id |  套餐ID   |
+|name | 套餐名称    |
+|band |  防御峰值    |
+|idc_band |  回源带宽    |
 |msg |  信息说明    |
 |code|  状态码    |
 
@@ -629,29 +626,37 @@ JSON示例:
 {
     "list": [
         {
-            "id": 70,
-            "high_ip": "1.1.1.10",
-            "product_type": 1,
-            "product_id": 3,
-            "order_id": 301,
-            "end_timestamp": 1505784693,
-            "start_timestamp": 1497835893,
-            "create_timestamp": 1497835893,
-            "created_at": "2017-06-19 11:16:37",
-            "updated_at": "2017-06-19 11:16:24"
+            "id": 1,
+            "high_ip": "1.1.1.4",
+            "order_id": 6,
+            "end_timestamp": 1502530479,
+            "start_timestamp": 1499852079,
+            "create_timestamp": 1499852079,
+            "created_at": "2017-07-14 16:34:11",
+            "updated_at": "2017-07-14 16:33:47",
+            "product": {
+                "id": 5,
+                "name": "40",
+                "band": "40",
+                "idc_band": "100"
+            }
         },
         {
-            "id": 71,
-            "high_ip": "1.1.1.12",
-            "product_type": 1,
-            "product_id": 2,
-            "order_id": 305,
-            "end_timestamp": 1500432851,
-            "start_timestamp": 1497840851,
-            "create_timestamp": 1497840851,
-            "created_at": "2017-06-19 10:54:11",
-            "updated_at": "2017-06-19 10:54:11"
-        },
+            "id": 2,
+            "high_ip": "1.1.1.5",
+            "order_id": 4,
+            "end_timestamp": 1502697294,
+            "start_timestamp": 1500018894,
+            "create_timestamp": 1500018894,
+            "created_at": "2017-07-14 15:54:54",
+            "updated_at": "2017-07-14 15:54:54",
+            "product": {
+                "id": 3,
+                "name": "20",
+                "band": "20",
+                "idc_band": "50"
+            }
+        }
     ],
     "msg": "获取成功",
     "code": 0
@@ -675,7 +680,7 @@ JSON示例:
 
 - 暂无
 
-<h4 id='1.2.2删除高防IP'>1.2.2 删除高防IP</h4>
+<h4 id='del_highIp_list'>1.2.2 删除高防IP</h4>
 
 ##### 功能说明：
 
@@ -743,7 +748,7 @@ JSON示例:
 - 暂无
  
 
-<h4 id='1.2.3转发规则列表'>1.2.3 转发规则列表</h4>
+<h4 id='get_rule_list'>1.2.3 转发规则列表</h4>
 
 ##### 功能说明：
 
@@ -838,7 +843,7 @@ JSON示例:
 
 - 暂无
 
-<h4 id='1.2.4添加转发规则'>1.2.4 添加转发规则</h4>
+<h4 id='add_rule'>1.2.4 添加转发规则</h4>
 
 ##### 功能说明：
 
@@ -910,7 +915,7 @@ JSON示例:
 - 暂无
 
 
-<h4 id='1.2.5编辑转发规则'>1.2.5 编辑转发规则</h4>
+<h4 id='edit_rule'>1.2.5 编辑转发规则</h4>
 
 ##### 功能说明：
 
@@ -981,7 +986,7 @@ JSON示例:
 
 - 暂无
 
-<h4 id='1.2.6删除转发规则'>1.2.6 删除转发规则</h4>
+<h4 id='del_rule'>1.2.6 删除转发规则</h4>
 
 ##### 功能说明：
 
